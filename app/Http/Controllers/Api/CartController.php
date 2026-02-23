@@ -26,7 +26,7 @@ class CartController extends Controller
             ->where('product_id', $product->id)
             ->first();
         if ($cartItem){
-            $cartItem->quantity += $request->queantity;
+            $cartItem->quantity += $request->quantity;
             $cartItem->save();
         } else{
             Cart::create([
