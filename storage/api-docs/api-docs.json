@@ -1,0 +1,192 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "E-commerce API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Iniciar Sesión para obtener Token",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "cliente@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso (Devuelve Token)"
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar Sesión (Requiere Token)",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada exitosamente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cart": {
+            "get": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Ver productos en mi carrito",
+                "operationId": "f04320157a67c6aee3f0844a843cae22",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos en el carrito"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Carrito"
+                ],
+                "summary": "Agregar producto al carrito",
+                "operationId": "3283d17024a75328763e21978d85cf48",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto agregado exitosamente"
+                    },
+                    "400": {
+                        "description": "No hay stock suficiente"
+                    },
+                    "401": {
+                        "description": "No autorizado (Falta Token)"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/checkout": {
+            "post": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Realizar compra (Checkout)",
+                "operationId": "c90fce9fa5e9860be3ce8ede472afc4f",
+                "responses": {
+                    "200": {
+                        "description": "Compra realizada con éxito"
+                    },
+                    "400": {
+                        "description": "Carrito vacío o sin stock"
+                    },
+                    "401": {
+                        "description": "No autorizado (Falta Token)"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Ver lista de videojuegos",
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos recuperada exitosamente"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticación",
+            "description": "Autenticación"
+        },
+        {
+            "name": "Carrito",
+            "description": "Carrito"
+        },
+        {
+            "name": "Ordenes",
+            "description": "Ordenes"
+        },
+        {
+            "name": "Productos",
+            "description": "Productos"
+        }
+    ]
+}
